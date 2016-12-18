@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html> 
+  <head>
+    <link rel="stylesheet" href="/css/default.css" />
+  </head>
+
+  <body>
+    <form action="/candidate/register" method="post">
+      <h1>Candidate</h1>
+      Email<br>
+      <input type="text" name="Email" value="{{.Email}}" disabled/><br>
+      First Name<br>
+      <input type="text" name="FirstName" value="{{.FirstName}}" /><br>
+      Last Name<br>
+      <input type="text" name="LastName" value="{{.LastName}}" /><br>
+      <input type="submit" value="Save">
+    </form>
+    <form action="/remove/{{.Id}}" method="get">
+      <input type="submit" value="Delete Record"/>
+    </form>
+  </body>
+</html>

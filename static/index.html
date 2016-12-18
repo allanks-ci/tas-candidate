@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html> 
+  <head>
+    <link rel="stylesheet" href="/css/default.css" />
+  </head>
+
+  <body>
+      <h1>Candidates</h1>
+      <ul>
+      {{range .}}
+      <li>
+          {{.FirstName}}:{{.LastName}}:{{.Email}} 
+        <form action="/remove/{{.Id}}" method="get">
+          <input type="submit" value="Delete Job"/>
+        </form>
+      </li>
+      {{end}}
+    </ul>
+  </body>
+</html>

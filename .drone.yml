@@ -1,0 +1,33 @@
+build:
+  image: golang
+  commands:
+    - go get
+    - CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
+  when:
+    event: push
+
+publish:
+  docker:
+    username: allanks
+    password: $$DOCKER_PASSWORD
+    email: $$EMAIL
+    repo: allanks/tas-candidate
+    when:
+      branch: master
+      event: push
+
+  ssh:
+    host: $$HOST
+    user: root
+    commands:
+      - docker login -u allanks -p $$DOCKER_PASSWORD
+      - docker pull allanks/tas-candidate
+      - echo "Stopping tas-candidate"
+      - docker stop tas-candidate
+      - echo "Removing tas-candidate"
+      - docker rm tas-candidate
+      - echo "Starting tas-candidate"
+      - docker run -d -e "IO_TAZZY_SECRET=$$TAZZY_SECRET" -e "APP_SHORTCODE=candidatestore" -v /db/bolt/tas-candidate:/db --name tas-candidate -p 8080:8082 allanks/tas-candidate
+    when:
+      branch: master
+      event: push
